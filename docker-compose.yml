@@ -1,0 +1,26 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  web:
+    build: .
+    ports:
+      - 9097:8086
+    environment:
+      - DATABASE_HOST=mysql-standalone
+      - DATABASE_USER=sa
+      - DATABASE_PASSWORD=password
+      - DATABASE_NAME=test
+      - DATABASE_PORT=3306
+    links:
+      - mysql-standalone
+  mysql-standalone:
+     image: mysql:5.7
+     restart: always
+     volumes:
+       - db_data:/var/lib/mysql
+     environment:
+       MYSQL_ROOT_PASSWORD: sa
+       MYSQL_DATABASE: test
+       MYSQL_USER: sa
+       MYSQL_PASSWORD: password
+volumes:
+  db_data: {}
